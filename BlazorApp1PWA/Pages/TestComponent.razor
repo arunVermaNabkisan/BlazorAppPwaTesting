@@ -1,0 +1,24 @@
+﻿@page "/test"
+@using BusinessLogic
+
+<PageTitle>Test</PageTitle>
+
+<h1>Test</h1>
+<h3>TestComponent</h3>
+@foreach(var x in data)
+{
+    <p>@x </p>
+
+}
+
+@code {
+    public StudentDataBAL st = new StudentDataBAL();
+    int[] data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await st.GetStudentDataAsync();
+    }
+
+    
+}
