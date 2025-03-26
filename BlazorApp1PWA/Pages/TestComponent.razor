@@ -3,22 +3,27 @@
 
 <PageTitle>Test</PageTitle>
 
-<h1>Test</h1>
-<h3>TestComponent</h3>
+<h1>Class Library call:</h1>
 @foreach(var x in data)
 {
     <p>@x </p>
 
 }
+<h3>Rapido API Check: </h3>
+@data2
 
 @code {
     public StudentDataBAL st = new StudentDataBAL();
     int[] data;
+    string data2="";
 
     protected override async Task OnInitializedAsync()
     {
         data = await st.GetStudentDataAsync();
+        data2 = await st.getRapido();
     }
+
+
 
     
 }
