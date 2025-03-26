@@ -50,19 +50,22 @@
 <div class="container">
 
     <EditForm Model="DataPoints">
-        <div class="form-group">
+        <div class="row p-2 border border-1">
+
+        <div class="col-md-6 my-2 form-group">
             <label for="photosOfFieldVisit">Photos of Field Visit</label>
             <InputFile OnChange="OnFieldVisitPhotosLoad">
 
             </InputFile>
         </div>
-        <div class="form-group">
-            <label >Date</label>
+        <div class="col-md-6 my-2 form-group">
+            <label>Date</label>
             <InputDate @bind-Value="@DataPoints.Date"></InputDate>
+        </div>
         </div>
 
     </EditForm>
-    <div>
+    <div class="mt-2">
         <button type="submit" class="btn btn-primary" onsubmit="SaveData"> Submit</button>
     </div>
     <p>Latitude: @latitude</p>
@@ -93,13 +96,13 @@
         latitude = location.Latitude;
         longitude = location.Longitude;
         accuracy = location.Accuracy;
-        Title = await GetLocationAsync(latitude,longitude);
+        Title = await GetLocationAsync(latitude, longitude);
         StateHasChanged();
     }
 
     public async Task<string> GetLocationAsync(double latitude, double longitude)
     {
-         var url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitude}&lon={longitude}";
+        var url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitude}&lon={longitude}";
         //var url = $"https://www.metaweather.com/api/location/search/?lattlong={latitude},{longitude}";
         string address, errorMessage;
         try
@@ -145,7 +148,7 @@
         var photos = e.GetMultipleFiles().ToList();
 
         if (photos?.Count == 0) return;
-        
+
         // foreach (var photo in photos)
         // {
         //     var fileExtension = Path.GetExtension(photo.Name).ToLower();
@@ -190,16 +193,17 @@
         //     }
         // }
         // IsFieldMonitoringImageUploaded = false;
-        
+
         // _photosOfFieldVisitId = Guid.NewGuid().ToString();
         // await _jSRuntime.ToastrSuccess("Photos uploaded successfully");
     }
 
 
-public class DataPointsModel{
-public string  File { get; set; }
-public DateTime Date { get; set; }
-}
+    public class DataPointsModel
+    {
+        public string File { get; set; }
+        public DateTime Date { get; set; }
+    }
     public class Location
     {
         public double Latitude { get; set; }
