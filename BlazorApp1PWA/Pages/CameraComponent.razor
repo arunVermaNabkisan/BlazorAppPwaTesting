@@ -1,0 +1,47 @@
+﻿@page "/camera"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+
+<h3>Camera Photo Click</h3>
+<video id="video" width="640" height="480" autoplay></video>
+<button @onclick="TakePhoto">Take Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+<img id="photo" alt="The screen capture will appear in this box.">
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeCamera");
+        }
+    }
+
+    private async Task TakePhoto()
+    {
+        await JSRuntime.InvokeVoidAsync("takePhoto");
+    }
+}
+
+<script>
+    async function initializeCamera() {
+        const constraints = {
+            video: true
+        };
+
+        const video = document.getElementById('video');
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
+    }
+
+    function takePhoto() {
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const video = document.getElementById('video');
+
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const photo = document.getElementById('photo');
+        photo.src = canvas.toDataURL('image/png');
+    }
+</script>
